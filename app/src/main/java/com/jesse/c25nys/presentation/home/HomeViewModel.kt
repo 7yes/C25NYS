@@ -1,9 +1,9 @@
-package com.jesse.c25nys.presentation
+package com.jesse.c25nys.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jesse.c25nys.data.SchoolsRepo
-import com.jesse.c25nys.presentation.uistate.UIState
+import com.jesse.c25nys.domain.GetAllSchoolsUC
+import com.jesse.c25nys.presentation.home.uistate.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repo: SchoolsRepo) :ViewModel() {
-
+class HomeViewModel @Inject constructor(private val getAllSchoolsUC: GetAllSchoolsUC) :ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
@@ -24,7 +23,7 @@ class HomeViewModel @Inject constructor(private val repo: SchoolsRepo) :ViewMode
     private fun getSchools(){
         _uiState.value = UIState.Loading
         viewModelScope.launch {
-            val data = repo.getAllSchools()
+            val data = getAllSchoolsUC()
            if (data.isNotEmpty()){
                _uiState.value = UIState.Success(data)
            }else{

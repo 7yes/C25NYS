@@ -1,5 +1,6 @@
 package com.jesse.c25nys.di
 
+import com.jesse.c25nys.data.DBNApi
 import com.jesse.c25nys.data.SchoolsApi
 import dagger.Module
 import dagger.Provides
@@ -32,5 +33,10 @@ class NetworkModule {
     @Provides
     fun providesOkHttpClient():OkHttpClient{
         return OkHttpClient.Builder().build()
+    }
+
+    @Provides
+    fun providesApiServiceDBN(retrofit: Retrofit):DBNApi{
+        return retrofit.create(DBNApi::class.java)
     }
 }
